@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,10 +32,49 @@ public class Theatre {
                 case 1: buy_ticket(theatre,tickets);break;
                 case 2: print_seating_area(theatre);break;
                 case 3: cancel_ticket(theatre,tickets);break;
-                case 4:  show_available(theatre);break;
+                case 4: show_available(theatre);break;
+                case 5: save_toFile(theatre);
+                case 6: load_fromFile(theatre);
             }
         } while (true);
 
+
+    }
+
+    private static void load_fromFile(int[][] theatre) {
+        try {
+            FileReader file = new FileReader("theatre.txt");
+            Scanner reader = new Scanner(file);
+            for (int[] row : theatre) {
+                String[] strings = reader.nextLine().split(",");
+                for (int i = 0; i < strings.length; i++) {
+                    row[i]= Integer.parseInt(strings[i]);
+                }
+            }
+            file.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!\nTry again");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void save_toFile(int[][] theatre){
+        try {
+            FileWriter file = new FileWriter("theatre.txt");
+            String data = "";
+            System.out.println("hi");
+            for (int[] row : theatre) {
+                for (int seat : row) {
+                    data += seat+",";
+                }
+                data += "\n";
+            }
+            file.write(data);
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
