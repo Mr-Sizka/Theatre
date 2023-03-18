@@ -1,4 +1,4 @@
-public class Ticket {
+public class Ticket{
     int row;
     int seat;
     double price;
@@ -13,12 +13,14 @@ public class Ticket {
 
     public void print(){
         System.out.println(
+                        "Ticket{" +
                         "Name : "+person.getName()+
-                        "\nSurname : "+person.getSurname()+
-                        "\nEmail : "+person.getEmail()+
-                        "\nRow : "+this.row+
-                        "\nSeat : "+this.seat+
-                        "\nPrice : Rs."+this.price
+                        ", Surname : "+person.getSurname()+
+                        ", Email : "+person.getEmail()+
+                        ", Row : "+this.row+
+                        ", Seat : "+this.seat+
+                        " ,Price : Rs."+this.price+
+                        " }"
         );
     }
 }

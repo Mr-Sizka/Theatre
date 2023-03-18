@@ -1,7 +1,7 @@
 public class Person {
-    private String name;
-    private String surname;
-    private String email;
+    private final String name;
+    private final String surname;
+    private final String email;
 
     public Person(String name, String surname, String email) {
         this.name = name;
@@ -20,4 +20,5 @@ public class Person {
     public String getEmail() {
         return email;
     }
+
 }

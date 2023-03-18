@@ -33,12 +33,44 @@ public class Theatre {
                 case 2: print_seating_area(theatre);break;
                 case 3: cancel_ticket(theatre,tickets);break;
                 case 4: show_available(theatre);break;
-                case 5: save_toFile(theatre);
-                case 6: load_fromFile(theatre);
+                case 5: save_toFile(theatre);break;
+                case 6: load_fromFile(theatre);break;
+                case 7: show_tickets_info(tickets);break;
+                case 8: sort_tickets(tickets);
             }
         } while (true);
+    }
 
+    private static void sort_tickets(ArrayList<Ticket> tickets) {
+        System.out.println("----------Sort Ticket List----------\n");
+        ArrayList<Ticket> sort = sort(tickets);
+        for (Ticket ticket : sort) {
+            ticket.print();
+        }
+    }
 
+    private static ArrayList<Ticket> sort(ArrayList<Ticket> tickets) {
+        ArrayList<Ticket> temp = new ArrayList<>(tickets);
+        for (int i = 0; i < temp.size()-1; i++) {
+            for (int j = i+1; j<temp.size(); j++){
+                if(temp.get(i).price > temp.get(j).price){
+                    Ticket swap = temp.get(j);
+                    temp.set(j,temp.get(i));
+                    temp.set(i,swap);
+                }
+            }
+        }
+        return temp;
+    }
+
+    private static void show_tickets_info(ArrayList<Ticket> tickets) {
+        System.out.println("----------All Tickets Info----------\n");
+        double total=0;
+        for (Ticket ticket : tickets) {
+            ticket.print();
+            total += ticket.price;
+        }
+        System.out.println("Total price : "+total);
     }
 
     private static void load_fromFile(int[][] theatre) {
@@ -75,9 +107,7 @@ public class Theatre {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 
     private static int getOption() {
         Scanner input = new Scanner(System.in);
@@ -90,8 +120,6 @@ public class Theatre {
                     System.out.println("Please enter valid option \nEnter option : ");
                     option = getOption();
                 }
-
-
             }catch (Exception e){
                 System.out.print("Please enter valid option \nEnter option : ");
                 option = getOption();
@@ -163,6 +191,7 @@ public class Theatre {
     private static boolean checkSeat(int rowNumber, int seatNumber, int[][] theatre) {
         return theatre[rowNumber - 1][seatNumber - 1] == 0;
     }
+
     private static void confirmTicket(int rowNumber, int seatNumber, int[][] theatre, ArrayList<Ticket> tickets) {
         Scanner input = new Scanner(System.in);
         while (true){
@@ -170,7 +199,9 @@ public class Theatre {
             String option = input.nextLine();
             if(option.equalsIgnoreCase("y")){
                 Person person = getInformation();
-                Ticket ticket = new Ticket(rowNumber, seatNumber, 100.00, person);
+                System.out.print("Price : ");
+                double price = input.nextDouble();
+                Ticket ticket = new Ticket(rowNumber, seatNumber, price, person);
                 tickets.add(ticket);
                 theatre[rowNumber-1][seatNumber-1]= 1;
                 System.out.println("Success! Thank You!");
@@ -205,7 +236,6 @@ public class Theatre {
                 break;
             }
         }
-
     }
     private static void print_seating_area(int[][] theatre) {
         System.out.println(" \t\t\t   ***********\n" +
