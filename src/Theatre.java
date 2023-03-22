@@ -11,6 +11,10 @@ public class Theatre {
         int [][] theatre = {row1,row2,row3};
         ArrayList<Ticket> tickets = new ArrayList<>();
 
+        System.out.println("-------------------------------------------------");
+        System.out.println("\t\t Welcome to the New Theatre");
+
+
         L1:do {
             System.out.print("-------------------------------------------------\n" +
                     "Please select an option:\n" +
@@ -107,7 +111,7 @@ public class Theatre {
             }
             file.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!\nTry again");
+            System.out.println("File not found!\nTry again\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,7 +125,6 @@ public class Theatre {
         try {
             FileWriter file = new FileWriter("theatre.txt");
             String data = "";
-            System.out.println("hi");
             for (int[] row : theatre) {
                 for (int seat : row) {
                     data += seat+",";
@@ -181,7 +184,7 @@ public class Theatre {
                     if (rowNumber > 0 && rowNumber < 4) {
                         return rowNumber;
                     }else {
-                        System.out.println("Please Enter a valid Number! (1 to 3)");
+                        System.out.println("Please Enter a valid Row Number! (1 to 3)\n");
                         rowNumber = getRow();
                     }
 
@@ -236,22 +239,23 @@ public class Theatre {
     private static boolean checkSeat(int rowNumber, int seatNumber, int[][] theatre) {
         return theatre[rowNumber - 1][seatNumber - 1] == 0;
     }
+
+
     /*get information from user and create a ticket object
     * @params int rowNumber, int seatNumber, int[][] theatre, ArrayList<Ticket> tickets
     * */
     private static void confirmTicket(int rowNumber, int seatNumber, int[][] theatre, ArrayList<Ticket> tickets) {
         Scanner input = new Scanner(System.in);
         while (true){
-            System.out.print("Seat available \nDo you want to buy the ticket (y/n) : ");
+            System.out.print("\nSeat available \nDo you want to buy the ticket (y/n) : ");
             String option = input.nextLine();
             if(option.equalsIgnoreCase("y")){
                 Person person = getInformation();
-                System.out.print("Price : ");
-                double price = input.nextDouble();
+                double price = getPrice();
                 Ticket ticket = new Ticket(rowNumber, seatNumber, price, person);
                 tickets.add(ticket);
                 theatre[rowNumber-1][seatNumber-1]= 1;
-                System.out.println("Success! Thank You!");
+                System.out.println("\nSuccess! Thank You!\n");
                 break;
             }else if(option.equalsIgnoreCase("n")) {
                 System.out.println("Canceled! ");
@@ -262,11 +266,28 @@ public class Theatre {
         }
         quite();
     }
+
+    /*get ticket price from user
+     * @return price
+     * */
+    private static double getPrice() {
+        Scanner input = new Scanner(System.in);
+        double price;
+        System.out.print("Price : ");
+        try {
+            price = input.nextDouble();
+        } catch (Exception e) {
+            System.out.println("\nPlease Enter a valid price! \n");
+            price = getPrice();
+        }
+        return price;
+    }
+
     /*get infromation from user and create Person object
     * @return Person object*/
     private static Person getInformation() {
         Scanner input = new Scanner(System.in);
-        System.out.print("Name : ");
+        System.out.print("\nName : ");
         String name = input.next();
         System.out.print("Surname : ");
         String surname = input.next();
